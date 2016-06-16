@@ -55,7 +55,7 @@ def banner(parser, token):
     bits = token.contents.split()
 
     if len(bits) not in [2, 4]:
-        raise template.TemplateSyntaxError(_("banner tag takes three of four arguments"))
+        raise template.TemplateSyntaxError(_("banner tag takes two of four arguments"))
 
     if 4 == len(bits) and 'as' == bits[2]:
         place_slug = bits[1]

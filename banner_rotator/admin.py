@@ -22,8 +22,8 @@ class PlaceAdmin(admin.ModelAdmin):
 class CampaignBannerInline(admin.StackedInline):
     model = Banner
     extra = 0
-    readonly_fields = ['views', 'clicks']
-    fields = ['is_active', 'places', 'name', 'url', 'file', 'weight', 'views', 'clicks']
+    # readonly_fields = ['views', 'clicks']
+    fields = ['is_active', 'places', 'name', 'url', 'file', 'weight']
     formfield_overrides = {
         models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
     }
@@ -44,12 +44,12 @@ class BannerAdmin(admin.ModelAdmin):
             'fields': ('campaign', 'places', 'name', 'url', 'url_target', 'file', 'alt'),
         }),
         (_('Show'), {
-            'fields': ('weight', 'views', 'max_views', 'clicks', 'max_clicks', 'start_at', 'finish_at', 'is_active'),
+            'fields': ('weight', 'max_views', 'max_clicks', 'start_at', 'finish_at', 'is_active'),
         })
     )
 
     filter_horizontal = ('places',)
-    readonly_fields = ('views', 'clicks',)
+    # readonly_fields = ('views', 'clicks',)
 
     object_log_clicks_template = None
 
@@ -65,7 +65,7 @@ class BannerAdmin(admin.ModelAdmin):
                 return self.admin_site.admin_view(view)(*args, **kwargs)
             return update_wrapper(wrapper, view)
 
-        info = self.model._meta.app_label, self.model._meta.module_name
+        info = self.model._meta.app_label, self.model._meta.model_name
 
         urlpatterns = patterns('',
             url(r'^$', wrap(self.changelist_view), name='%s_%s_changelist' % info),
